@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Tickets;
+namespace App\Livewire\Staff\Tickets;
 
 use App\Models\Company;
 use App\Models\Product;
@@ -35,7 +35,7 @@ class ListTickets extends Component
 
     public function render(): View
     {
-        return view('livewire.tickets.list-tickets');
+        return view('livewire.staff.tickets.list-tickets');
     }
 
     public function submit(): void

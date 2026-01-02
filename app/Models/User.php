@@ -63,6 +63,11 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->belongsTo(Company::class);
     }
 
+    public function isStaff(): bool
+    {
+        return $this->role !== UserRole::Client;
+    }
+
     /**
      * Get the user's initials
      */

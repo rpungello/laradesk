@@ -30,7 +30,7 @@
                 </flux:sidebar.group>
 
                 <!-- Tickets -->
-                <flux:sidebar.item icon="ticket" :href="route('tickets.index')" :current="request()->routeIs('tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:sidebar.item>
+                <flux:sidebar.item icon="ticket" :href="route('staff.tickets.index')" :current="request()->routeIs('tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:sidebar.item>
             </flux:sidebar.nav>
 
             <flux:spacer />
