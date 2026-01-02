@@ -2,7 +2,11 @@
 
 namespace App\Enums;
 
-enum Priority: int
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+use Illuminate\Contracts\Support\Htmlable;
+
+enum Priority: int implements HasLabel, HasColor
 {
     case Emergency = 1;
 
@@ -13,4 +17,19 @@ enum Priority: int
     case Medium = 4;
 
     case Low = 5;
+
+    public function getLabel(): string|Htmlable|null
+    {
+        return $this->name;
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match (true) {
+            $this->value <= self::Critical->value => 'red',
+            $this === self::High => 'amber',
+            $this === self::Medium => 'blue',
+            $this === self::Low => 'green',
+        };
+    }
 }

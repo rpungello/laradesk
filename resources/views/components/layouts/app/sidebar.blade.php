@@ -23,6 +23,11 @@
                         @endif
                     @endadmin
                 </flux:navlist.group>
+
+                <!-- Platform -->
+                <flux:navlist.group :heading="trans_choice('model.ticket', 2)" class="grid">
+                    <flux:navlist.item icon="ticket" :href="route('tickets.index')" :current="request()->routeIs('tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:navlist.item>
+                </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Tickets;
 
 use App\Enums\Priority;
+use App\Enums\TicketStatus;
 use App\Enums\TicketType;
 use App\Models\Ticket;
 use BackedEnum;
@@ -35,7 +36,7 @@ class TicketResource extends Resource
 
     protected static ?string $slug = 'tickets';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
 
     public static function form(Schema $schema): Schema
     {
@@ -67,6 +68,10 @@ class TicketResource extends Resource
                     ->options(Priority::class),
 
                 DatePicker::make('due_date'),
+
+                Select::make('status')
+                    ->options(TicketStatus::class)
+                    ->required(),
 
                 Select::make('type')
                     ->options(TicketType::class)

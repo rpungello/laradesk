@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TicketStatus;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\User;
@@ -15,7 +16,8 @@ return new class extends Migration
             $table->id();
 
             $table->string('title')->index();
-            $table->string('type');
+            $table->string('status')->default(TicketStatus::New)->index();
+            $table->string('type')->index();
 
             $table->foreignIdFor(User::class)->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'assigned_user_id')->nullable()->constrained('users')->nullOnDelete();
