@@ -6,7 +6,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum UserRole: string implements HasLabel, HasColor
+enum UserRole: string implements HasColor, HasLabel
 {
     case Administrator = 'admin';
     case Staff = 'staff';
