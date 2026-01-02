@@ -164,7 +164,7 @@ class TicketResource extends Resource
     }
 
     /**
-     * @param Ticket $record
+     * @param  Ticket  $record
      */
     public static function getGlobalSearchResultDetails(Model $record): array
     {
