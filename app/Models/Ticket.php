@@ -13,7 +13,7 @@ use Laravel\Scout\Searchable;
 
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes, Searchable;
+    use HasFactory, Searchable, SoftDeletes;
 
     protected $fillable = [
         'title',

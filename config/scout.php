@@ -141,8 +141,8 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             'tickets' => [
-                'filterableAttributes'=> ['user', 'assignee', 'product', 'company', '__soft_deleted'],
-                'sortableAttributes'=> ['priority', 'created_at', 'updated_at'],
+                'filterableAttributes' => ['user', 'assignee', 'product', 'company', '__soft_deleted'],
+                'sortableAttributes' => ['priority', 'created_at', 'updated_at'],
                 'searchableAttributes' => ['title'],
             ],
         ],
