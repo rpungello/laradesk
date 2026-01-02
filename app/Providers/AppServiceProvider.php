@@ -2,7 +2,13 @@
 
 namespace App\Providers;
 
+use App\Enums\UserRole;
+use Illuminate\Console\Events\CommandStarting;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nightwatch\Facades\Nightwatch;
+use Lorisleiva\Actions\Facades\Actions;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +17,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -19,6 +28,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::if('admin', fn () => auth()->user()?->role === UserRole::Administrator);
+
+        if ($this->app->runningInConsole()) {
+            Actions::registerCommands();
+        }
+
+        // Configure nightwatch
+        Event::listen(function (CommandStarting $event) {
+            if (in_array($event->command, [
+                'horizon:status',
+                'horizon:snapshot',
+            ])) {
+                Nightwatch::dontSample();
+            }
+        });
     }
 }
