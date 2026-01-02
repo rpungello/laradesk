@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nightwatch\Facades\Nightwatch;
 use Lorisleiva\Actions\Facades\Actions;
@@ -33,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             Actions::registerCommands();
         }
+
+        // Allow admins to perform all actions
+        Gate::before(
+            fn (User $user) => $user->role === UserRole::Administrator ? true : null
+        );
 
         // Configure nightwatch
         Event::listen(function (CommandStarting $event) {
