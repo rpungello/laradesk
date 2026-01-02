@@ -1,7 +1,10 @@
 /.phpunit.cache
 /node_modules
 /public/build
+/public/css
+/public/fonts
 /public/hot
+/public/js
 /public/storage
 /storage/*.key
 /storage/pail

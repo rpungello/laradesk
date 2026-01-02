@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +15,7 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravolt\Avatar\Facade as Avatar;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
@@ -75,5 +77,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function avatar(): string
     {
         return Avatar::create(auth()->user()->email)->toGravatar();
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->role === UserRole::Administrator;
     }
 }
