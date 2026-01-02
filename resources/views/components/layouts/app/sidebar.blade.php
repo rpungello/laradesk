@@ -4,41 +4,38 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+        <flux:sidebar sticky collapsible :collapsed="true" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+            <flux:sidebar.header>
+                <flux:sidebar.brand
+                    :name="config('app.name')"
+                >
+                    <x-slot:logo>
+                        <x-app-logo-icon />
+                    </x-slot:logo>
+                </flux:sidebar.brand>
+                <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
+            </flux:sidebar.header>
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
-                <x-app-logo />
-            </a>
-
-            <flux:navlist variant="outline">
+            <flux:sidebar.nav variant="outline">
                 <!-- Platform -->
-                <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                <flux:sidebar.group expandable :heading="__('Platform')" icon="square-3-stack-3d" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:sidebar.item>
                     @admin
-                        <flux:navlist.item icon="light-bulb" :href="route('filament.admin.pages.dashboard')">{{ __('Filament') }}</flux:navlist.item>
-                        <flux:navlist.item icon="queue-list" :href="route('horizon.index')">{{ __('Horizon') }}</flux:navlist.item>
+                        <flux:sidebar.item icon="light-bulb" :href="route('filament.admin.pages.dashboard')">{{ __('Filament') }}</flux:sidebar.item>
+                        <flux:sidebar.item icon="queue-list" :href="route('horizon.index')">{{ __('Horizon') }}</flux:sidebar.item>
                         @if(!app()->isProduction())
-                            <flux:navlist.item icon="telescope" :href="route('telescope')">{{ __('Telescope') }}</flux:navlist.item>
+                            <flux:sidebar.item icon="telescope" :href="route('telescope')">{{ __('Telescope') }}</flux:sidebar.item>
                         @endif
                     @endadmin
-                </flux:navlist.group>
+                </flux:sidebar.group>
 
-                <!-- Platform -->
-                <flux:navlist.group :heading="trans_choice('model.ticket', 2)" class="grid">
-                    <flux:navlist.item icon="ticket" :href="route('tickets.index')" :current="request()->routeIs('tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:navlist.item>
-                </flux:navlist.group>
-            </flux:navlist>
+                <!-- Tickets -->
+                <flux:sidebar.group expandable :heading="trans_choice('model.ticket', 2)" icon="ticket" class="grid">
+                    <flux:sidebar.item :href="route('tickets.index')" :current="request()->routeIs('tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:sidebar.item>
+                </flux:sidebar.group>
+            </flux:sidebar.nav>
 
             <flux:spacer />
-
-            @admin
-                <flux:navlist variant="outline">
-                    <flux:navlist.item icon="folder-git-2" href="https://github.com/rpungello/laradesk" target="_blank">
-                    {{ __('Repository') }}
-                    </flux:navlist.item>
-                </flux:navlist>
-            @endadmin
 
             <!-- Desktop User Menu -->
             <flux:dropdown class="hidden lg:block" position="bottom" align="start">
