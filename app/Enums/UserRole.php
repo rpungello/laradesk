@@ -2,9 +2,27 @@
 
 namespace App\Enums;
 
-enum UserRole: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+use Illuminate\Contracts\Support\Htmlable;
+
+enum UserRole: string implements HasLabel, HasColor
 {
     case Administrator = 'admin';
     case Staff = 'staff';
     case Client = 'client';
+
+    public function getLabel(): string|Htmlable|null
+    {
+        return $this->name;
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Administrator => 'danger',
+            self::Staff => 'warning',
+            self::Client => 'info',
+        };
+    }
 }

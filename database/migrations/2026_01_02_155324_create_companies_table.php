@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('domain')->unique();
+            $table->string('domain')->nullable()->unique();
             $table->timestamps();
             $table->softDeletes();
             $table->index('updated_at');
