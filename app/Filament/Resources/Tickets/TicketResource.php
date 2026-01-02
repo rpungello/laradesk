@@ -23,6 +23,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -91,6 +92,10 @@ class TicketResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('priority'),
+
+                TextColumn::make('status'),
+
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
@@ -111,12 +116,8 @@ class TicketResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('billable'),
-
-                TextColumn::make('priority'),
-
-                TextColumn::make('due_date')
-                    ->date(),
+                IconColumn::make('billable')
+                    ->boolean(),
 
                 TextColumn::make('type'),
             ])

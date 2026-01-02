@@ -26,7 +26,7 @@
                     <!-- Priority -->
                     <flux:table.cell>
                         <flux:badge size="sm"
-                                    :color="$ticket->priority->getColor()"
+                                    :color="$ticket->priority->getFluxColor()"
                         >
                             {{ $ticket->priority->getLabel() }}
                         </flux:badge>
@@ -35,7 +35,7 @@
                     <!-- Status -->
                     <flux:table.cell>
                         <flux:badge size="sm"
-                                    :color="$ticket->status->getColor()"
+                                    :color="$ticket->status->getFluxColor()"
                         >
                             {{ $ticket->status->getLabel() }}
                         </flux:badge>

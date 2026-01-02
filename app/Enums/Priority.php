@@ -2,11 +2,12 @@
 
 namespace App\Enums;
 
+use App\Contracts\HasFluxColor;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum Priority: int implements HasLabel, HasColor
+enum Priority: int implements HasLabel, HasColor, HasFluxColor
 {
     case Emergency = 1;
 
@@ -24,6 +25,16 @@ enum Priority: int implements HasLabel, HasColor
     }
 
     public function getColor(): string|array|null
+    {
+        return match (true) {
+            $this->value <= self::Critical->value => 'danger',
+            $this === self::High => 'warning',
+            $this === self::Medium => 'info',
+            $this === self::Low => 'success',
+        };
+    }
+
+    public function getFluxColor(): string
     {
         return match (true) {
             $this->value <= self::Critical->value => 'red',

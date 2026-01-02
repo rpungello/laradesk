@@ -2,11 +2,12 @@
 
 namespace App\Enums;
 
+use App\Contracts\HasFluxColor;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum TicketStatus: string implements HasLabel, HasColor
+enum TicketStatus: string implements HasLabel, HasColor, HasFluxColor
 {
     case New = 'new';
     case Open = 'open';
@@ -19,6 +20,16 @@ enum TicketStatus: string implements HasLabel, HasColor
     }
 
     public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::New => 'warning',
+            self::Pending => 'info',
+            self::Open => 'danger',
+            default => null,
+        };
+    }
+
+    public function getFluxColor(): string
     {
         return match ($this) {
             self::New => 'amber',
