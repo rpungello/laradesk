@@ -33,7 +33,7 @@
             <flux:dropdown class="hidden lg:block" position="bottom" align="start">
                 <flux:profile
                     :name="auth()->user()->name"
-                    :initials="auth()->user()->initials()"
+                    :avatar="auth()->user()->avatar()"
                     icon:trailing="chevrons-up-down"
                 />
 

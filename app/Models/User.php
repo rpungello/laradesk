@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravolt\Avatar\Facade as Avatar;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -62,5 +63,10 @@ class User extends Authenticatable implements MustVerifyEmail
             ->take(2)
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    public function avatar(): string
+    {
+        return Avatar::create(auth()->user()->email)->toGravatar();
     }
 }
