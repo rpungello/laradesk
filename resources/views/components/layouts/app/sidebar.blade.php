@@ -12,8 +12,16 @@
             </a>
 
             <flux:navlist variant="outline">
+                <!-- Platform -->
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    @admin
+                        <flux:navlist.item icon="light-bulb" :href="route('filament.admin.pages.dashboard')">{{ __('Filament') }}</flux:navlist.item>
+                        <flux:navlist.item icon="queue-list" :href="route('horizon.index')">{{ __('Horizon') }}</flux:navlist.item>
+                        @if(!app()->isProduction())
+                            <flux:navlist.item icon="telescope" :href="route('telescope')">{{ __('Telescope') }}</flux:navlist.item>
+                        @endif
+                    @endadmin
                 </flux:navlist.group>
             </flux:navlist>
 
