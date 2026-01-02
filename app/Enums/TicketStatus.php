@@ -7,7 +7,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum TicketStatus: string implements HasLabel, HasColor, HasFluxColor
+enum TicketStatus: string implements HasColor, HasFluxColor, HasLabel
 {
     case New = 'new';
     case Open = 'open';

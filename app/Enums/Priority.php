@@ -7,7 +7,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum Priority: int implements HasLabel, HasColor, HasFluxColor
+enum Priority: int implements HasColor, HasFluxColor, HasLabel
 {
     case Emergency = 1;
 
