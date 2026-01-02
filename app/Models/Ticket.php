@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = [
         'title',
@@ -54,6 +55,20 @@ class Ticket extends Model
             'priority' => Priority::class,
             'status' => TicketStatus::class,
             'type' => TicketType::class,
+        ];
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'user' => $this->user->name,
+            'assignee' => $this->assignedUser?->name,
+            'product' => $this->product?->name,
+            'company' => $this->company?->name,
+            'priority' => $this->priority->value,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

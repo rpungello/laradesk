@@ -30,9 +30,7 @@
                 </flux:sidebar.group>
 
                 <!-- Tickets -->
-                <flux:sidebar.group expandable :heading="trans_choice('model.ticket', 2)" icon="ticket" class="grid">
-                    <flux:sidebar.item :href="route('tickets.index')" :current="request()->routeIs('tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:sidebar.item>
-                </flux:sidebar.group>
+                <flux:sidebar.item icon="ticket" :href="route('tickets.index')" :current="request()->routeIs('tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:sidebar.item>
             </flux:sidebar.nav>
 
             <flux:spacer />
