@@ -13,6 +13,7 @@ use App\Models\Ticket;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -64,7 +65,10 @@ class ViewTicket extends Component
     public function postComment(): void
     {
         $comment = $this->ticket->comments()->create(
-            $this->validate()
+            array_merge(
+                ['user_id' => auth()->id()],
+                Arr::only($this->validate(), ['visibility', 'content'])
+            )
         );
         foreach ($this->attachments as $attachment) {
             $comment->attachments()->create([

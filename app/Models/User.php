@@ -31,6 +31,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'password',
         'role',
         'company_id',
+        'signature',
     ];
 
     /**
@@ -94,5 +95,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->role === UserRole::Administrator;
+    }
+
+    public function signatureForComment(Comment $comment): ?string
+    {
+        return $this->signature;
     }
 }
