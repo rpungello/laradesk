@@ -14,10 +14,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Ticket extends Model
+class Ticket extends Model implements Auditable
 {
-    use HasFactory, Searchable, SoftDeletes;
+    use HasFactory, Searchable, SoftDeletes, \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'title',
