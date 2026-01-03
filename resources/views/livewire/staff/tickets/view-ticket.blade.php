@@ -15,10 +15,14 @@
                 <!-- Requesting User -->
                 <flux:select variant="listbox" searchable wire:model="form.user_id" :label="__('ticket.user_id')">
                     @foreach($this->users as $user)
-                        <flux:select.option
-                            :label="$user->name"
-                            :value="$user->getKey()"
-                        />
+                        <flux:select.option :value="$user->getKey()">
+                            <div class="flex items-center gap-2">
+                                <span>{{ $user->name }}</span>
+                                @if(! empty($icon = $user->role->getFluxIcon()))
+                                    <flux:icon :name="$icon" variant="mini" />
+                                @endif
+                            </div>
+                        </flux:select.option>
                     @endforeach
                 </flux:select>
 

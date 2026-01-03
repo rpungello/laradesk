@@ -2,11 +2,12 @@
 
 namespace App\Enums;
 
+use App\Contracts\HasFluxIcon;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum UserRole: string implements HasColor, HasLabel
+enum UserRole: string implements HasColor, HasLabel, HasFluxIcon
 {
     case Administrator = 'admin';
     case Staff = 'staff';
@@ -23,6 +24,15 @@ enum UserRole: string implements HasColor, HasLabel
             self::Administrator => 'danger',
             self::Staff => 'warning',
             self::Client => 'info',
+        };
+    }
+
+    public function getFluxIcon(): string
+    {
+        return match ($this) {
+            self::Administrator => 'lock-closed',
+            self::Staff => 'headset',
+            self::Client => '',
         };
     }
 }
