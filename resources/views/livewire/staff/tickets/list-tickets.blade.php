@@ -5,7 +5,7 @@
 
     <div class="flex flex-row w-full gap-8 items-stretch flex-grow">
         <!-- Search Bar -->
-        <aside>
+        <aside class="min-w-xs">
             <form wire:submit.prevent="submit" class="flex flex-col space-y-4 h-full">
                 <!-- General Search -->
                 <flux:input
@@ -148,6 +148,7 @@
                                         icon="eye"
                                         size="sm"
                                         variant="primary"
+                                        wire:navigate
                                     />
                                 </flux:table.cell>
                             @endcan

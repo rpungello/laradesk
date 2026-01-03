@@ -1,6 +1,6 @@
 <div class="flex flex-col space-y-4">
     <flux:breadcrumbs class="flex-none">
-        <flux:breadcrumbs.item :href="route('staff.tickets.index')">@choice('model.ticket', 2)</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('staff.tickets.index')" wire:navigate>@choice('model.ticket', 2)</flux:breadcrumbs.item>
         <flux:breadcrumbs.item>{{ $ticket->title }} (#{{ $ticket->getKey() }})</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
