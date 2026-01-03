@@ -93,6 +93,14 @@ class Ticket extends Model implements Auditable
             || $this->followers()->whereRole(UserRole::Client)->exists();
     }
 
+    public function generateTags(): array
+    {
+        return array_filter([
+            $this->company?->name,
+            $this->product?->name,
+        ]);
+    }
+
     public function toSearchableArray(): array
     {
         return [

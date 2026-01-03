@@ -63,4 +63,9 @@ class Comment extends Model implements HasFluxColor, Auditable
     {
         return $this->visibility->getFluxColor();
     }
+
+    public function generateTags(): array
+    {
+        return $this->ticket->generateTags();
+    }
 }
