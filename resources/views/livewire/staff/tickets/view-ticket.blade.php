@@ -110,6 +110,18 @@
                         <div class="ticket-body">
                             {!! $comment->render() !!}
                         </div>
+                        @if($comment->attachments()->exists())
+                            <x-slot:actions>
+                                @foreach($comment->attachments as $attachment)
+                                    <flux:button
+                                        size="xs"
+                                        :href="route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key])"
+                                    >
+                                        {{ $attachment->client_filename }}
+                                    </flux:button>
+                                @endforeach
+                            </x-slot:actions>
+                        @endif
                     </flux:callout>
                 @endcan
             @endforeach
@@ -133,6 +145,23 @@
                     </flux:callout>
                 @endif
                 <flux:editor wire:model="content" :label="trans_choice('model.comment', 1)" />
+                <flux:file-upload wire:model="attachments" :label="__('ticket.attachments')">
+                    <flux:file-upload.dropzone
+                        heading="Drop files to attach"
+                        text="Max size: 50MiB"
+                        with-progress
+                        inline
+                    />
+                </flux:file-upload>
+                <div>
+                    @foreach($attachments as $index => $attachment)
+                        <flux:file-item :heading="$attachment->getClientOriginalName()">
+                            <x-slot name="actions">
+                                <flux:file-item.remove wire:click="removeAttachment({{ $index }})" />
+                            </x-slot>
+                        </flux:file-item>
+                    @endforeach
+                </div>
                 <flux:button variant="primary" type="submit">
                     @lang('general.post')
                 </flux:button>

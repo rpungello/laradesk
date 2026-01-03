@@ -16,10 +16,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 
 class ViewTicket extends Component
 {
-    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers, SelectsVisibilities;
+    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers, SelectsVisibilities, WithFileUploads;
 
     public Ticket $ticket;
 
@@ -30,6 +32,12 @@ class ViewTicket extends Component
 
     #[Validate(['required'])]
     public string $visibility;
+
+    #[Validate(['array'])]
+    /**
+     * @var $attachments TemporaryUploadedFile[]
+     */
+    public array $attachments = [];
 
     public array $followers = [];
 
@@ -55,12 +63,27 @@ class ViewTicket extends Component
 
     public function postComment(): void
     {
-        $this->ticket->comments()->create(
+        $comment = $this->ticket->comments()->create(
             $this->validate()
         );
+        foreach ($this->attachments as $attachment) {
+            $comment->attachments()->create([
+                'disk' => config('filesystems.default'),
+                'path' => $attachment->store('attachments'),
+                'size' => $attachment->getSize(),
+                'content_type' => $attachment->getMimeType(),
+                'client_filename' => $attachment->getClientOriginalName(),
+            ]);
+        }
+        $this->attachments = [];
 
         Flux::toast('Comment posted', variant: 'success');
         $this->content = '';
+    }
+
+    public function removeAttachment(int $index): void
+    {
+        unset($this->attachments[$index]);
     }
 
     #[Computed]

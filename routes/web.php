@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ViewAttachmentController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -12,6 +13,8 @@ use Laravel\Fortify\Features;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('attachments/{attachment}', ViewAttachmentController::class)->name('attachments.show');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
