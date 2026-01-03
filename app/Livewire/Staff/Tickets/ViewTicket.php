@@ -31,9 +31,12 @@ class ViewTicket extends Component
     #[Validate(['required'])]
     public string $visibility;
 
+    public array $followers = [];
+
     public function mount(): void
     {
         $this->visibility = Visibility::Public->value;
+        $this->followers = $this->ticket->followers()->pluck('id')->toArray();
         $this->form->loadTicket($this->ticket);
     }
 
@@ -44,9 +47,8 @@ class ViewTicket extends Component
 
     public function save(): void
     {
-        $this->ticket->update(
-            $this->form->validate()
-        );
+        $this->ticket->update($this->form->validate());
+        $this->ticket->followers()->sync($this->followers);
 
         Flux::toast('Ticket updated', variant: 'success');
     }

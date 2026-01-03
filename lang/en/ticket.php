@@ -5,6 +5,7 @@ return [
     'type' => 'Type',
     'status' => 'Status',
     'user_id' => 'User',
+    'followers' => 'Followers',
     'assigned_user_id' => 'Assignee',
     'product_id' => 'Product',
     'company_id' => 'Company',
