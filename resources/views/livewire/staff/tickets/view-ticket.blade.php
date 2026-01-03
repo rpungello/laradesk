@@ -101,7 +101,7 @@
         <main class="flex-1 flex flex-col gap-4 overflow-y-scroll">
             @foreach($this->comments as $comment)
                 <flux:callout :color="$comment->getFluxColor()">
-                    <flux:callout.heading icon="user-circle">
+                    <flux:callout.heading :icon="$comment->user->role === \App\Enums\UserRole::Client ? 'user-circle' : 'headset'">
                         <flux:text variant="strong">{{ $comment->user->name }}</flux:text>
                         <flux:text variant="subtle">{{ $comment->created_at->diffForHumans() }}</flux:text>
                     </flux:callout.heading>
