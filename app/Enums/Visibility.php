@@ -37,7 +37,7 @@ enum Visibility: string implements HasDescription, HasFluxColor, HasFluxIcon, Ha
         return match ($this) {
             self::Public => 'eye',
             self::Private => 'lock-closed',
-            self::StaffOnly => 'user-circle',
+            self::StaffOnly => 'headset',
         };
     }
 
