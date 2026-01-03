@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -91,6 +92,21 @@ class Ticket extends Model implements Auditable
     {
         return $this->user->role === UserRole::Client
             || $this->followers()->whereRole(UserRole::Client)->exists();
+    }
+
+    public function transformAudit(array $data): array
+    {
+        if (Arr::has($data, 'new_values.company_id')) {
+            $data['old_values']['company_name'] = Company::find(Arr::get($data, 'old_values.company_id'))?->name;
+            $data['new_values']['company_name'] = Company::find(Arr::get($data, 'new_values.company_id'))?->name;
+        }
+
+        if (Arr::has($data, 'new_values.product_id')) {
+            $data['old_values']['product_name'] = Company::find(Arr::get($data, 'old_values.product_id'))?->name;
+            $data['new_values']['product_name'] = Product::find(Arr::get($data, 'new_values.product_id'))?->name;
+        }
+
+        return $data;
     }
 
     public function generateTags(): array
