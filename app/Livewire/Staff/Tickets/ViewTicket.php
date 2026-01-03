@@ -10,6 +10,8 @@ use App\Livewire\Forms\TicketForm;
 use App\Models\Ticket;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ViewTicket extends Component
@@ -37,5 +39,11 @@ class ViewTicket extends Component
         );
 
         Flux::toast('Ticket updated', variant: 'success');
+    }
+
+    #[Computed]
+    public function comments(): Collection
+    {
+        return $this->ticket->comments()->orderBy('created_at')->get();
     }
 }

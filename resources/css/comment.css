@@ -1,0 +1,10 @@
+.ticket-body {
+    h1 {
+        font-weight: bold;
+    }
+    blockquote {
+        padding-left: 1rem;
+        border-left: 1px solid var(--color-gray-500);
+        color: var(--color-gray-400);
+    }
+}

@@ -1,10 +1,10 @@
-<div class="flex flex-col space-y-4 h-full">
-    <flux:breadcrumbs>
+<div class="flex flex-col space-y-4">
+    <flux:breadcrumbs class="flex-none">
         <flux:breadcrumbs.item :href="route('staff.tickets.index')">@choice('model.ticket', 2)</flux:breadcrumbs.item>
         <flux:breadcrumbs.item>{{ $ticket->title }}</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
-    <div class="flex flex-row w-full gap-8 items-stretch flex-grow">
+    <div class="flex flex-row w-full gap-8 items-stretch flex-grow max-h-[calc(100vh-7rem)]">
         <aside>
             <form class="flex flex-col space-y-4 h-full min-w-xs" wire:submit.prevent="save">
                 <flux:input
@@ -80,8 +80,21 @@
             </form>
         </aside>
         <flux:separator :vertical="true"/>
-        <main class="flex-grow">
-
+        <main class="flex-1 flex flex-col gap-4 overflow-y-scroll">
+            @foreach($this->comments as $comment)
+                @can('view', $comment)
+                    <flux:callout :color="$comment->getFluxColor()">
+                        <flux:callout.heading icon="user-circle">
+                            <flux:text variant="strong">{{ $comment->user->name }}</flux:text>
+                            <flux:text variant="subtle">{{ $comment->created_at->diffForHumans() }}</flux:text>
+                        </flux:callout.heading>
+                        <flux:separator />
+                        <div class="ticket-body">
+                            {!! $comment->markdown() !!}
+                        </div>
+                    </flux:callout>
+                @endcan
+            @endforeach
         </main>
     </div>
 </div>

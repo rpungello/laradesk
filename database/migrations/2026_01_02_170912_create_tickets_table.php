@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('status')->default(TicketStatus::New)->index();
             $table->string('type')->index();
 
-            $table->foreignIdFor(User::class)->constrained('users')->cascadeOnDelete();
-            $table->foreignIdFor(User::class, 'assigned_user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignIdFor(Product::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Company::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class)->constrained('users')->restrictOnDelete();
+            $table->foreignIdFor(User::class, 'assigned_user_id')->nullable()->constrained('users')->restrictOnDelete();
+            $table->foreignIdFor(Product::class)->nullable()->constrained()->restrictOnDelete();
+            $table->foreignIdFor(Company::class)->nullable()->constrained()->restrictOnDelete();
 
             $table->unsignedTinyInteger('priority');
             $table->boolean('billable');
