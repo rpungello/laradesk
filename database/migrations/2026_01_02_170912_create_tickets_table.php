@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->nullable()->constrained()->restrictOnDelete();
             $table->foreignIdFor(Company::class)->nullable()->constrained()->restrictOnDelete();
 
-            $table->unsignedTinyInteger('priority');
+            $table->unsignedTinyInteger('priority')->nullable();
             $table->boolean('billable')->default(false);
             $table->date('due_date')->nullable();
 
