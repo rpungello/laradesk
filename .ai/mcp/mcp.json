@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "laravel-boost": {
-      "command": "/opt/homebrew/Cellar/php/8.5.1_2/bin/php",
+      "command": "./vendor/bin/sail",
       "args": [
-        "/Users/rob/Development/PHP/laradesk/artisan",
+        "artisan",
         "boost:mcp"
       ]
     }
