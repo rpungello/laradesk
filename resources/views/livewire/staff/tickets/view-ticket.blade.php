@@ -123,8 +123,11 @@
                     @endif
                 </flux:callout>
             @endforeach
+
+            <!-- New Comment -->
             <flux:separator :text="__('general.new')" />
             <form wire:submit.prevent="postComment" class="space-y-4">
+                <!-- New Comment Visibility -->
                 <flux:radio.group wire:model.live="visibility" variant="cards" :label="__('comment.visibility')">
                     @foreach($this->visibilities as $visibility)
                         <flux:radio
@@ -136,13 +139,23 @@
                         />
                     @endforeach
                 </flux:radio.group>
+
+                <!-- New Comment Visibility Warning -->
                 @if($ticket->hasClientFollower() && $this->visibility === \App\Enums\Visibility::Public->value)
                     <flux:callout variant="warning">
                         <flux:callout.heading>@lang('ticket.external')</flux:callout.heading>
                         <flux:callout.text>@lang('ticket.has_client_follower')</flux:callout.text>
                     </flux:callout>
                 @endif
-                <flux:editor wire:model="content" :label="trans_choice('model.comment', 1)" />
+
+                <!-- New Comment Editor -->
+                <flux:editor
+                    wire:model="content"
+                    :label="trans_choice('model.comment', 1)"
+                    wire:keydown.prevent.cmd.enter="postComment"
+                />
+
+                <!-- New Comment Attachments -->
                 <flux:file-upload wire:model="attachments" :label="__('ticket.attachments')">
                     <flux:file-upload.dropzone
                         heading="Drop files to attach"
