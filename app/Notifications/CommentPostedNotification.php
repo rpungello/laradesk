@@ -8,16 +8,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class CommentPostedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public Comment $comment)
-    {
-    }
+    public function __construct(public Comment $comment) {}
 
     public function via($notifiable): array
     {

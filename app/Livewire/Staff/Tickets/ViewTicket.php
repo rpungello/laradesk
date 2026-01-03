@@ -9,7 +9,6 @@ use App\Concerns\SelectsUsers;
 use App\Concerns\SelectsVisibilities;
 use App\Enums\Visibility;
 use App\Livewire\Forms\TicketForm;
-use App\Models\Comment;
 use App\Models\Ticket;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;

@@ -16,9 +16,7 @@ class CommentMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Comment $comment)
-    {
-    }
+    public function __construct(public Comment $comment) {}
 
     public function envelope(): Envelope
     {
@@ -37,7 +35,7 @@ class CommentMail extends Mailable implements ShouldQueue
     public function attachments(): array
     {
         return $this->comment->attachments->map(
-            fn(AttachmentModel $attachment) => Attachment::fromStorageDisk(
+            fn (AttachmentModel $attachment) => Attachment::fromStorageDisk(
                 $attachment->disk,
                 $attachment->path
             )->as($attachment->client_filename)
