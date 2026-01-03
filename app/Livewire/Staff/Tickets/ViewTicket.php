@@ -6,24 +6,34 @@ use App\Concerns\SelectsCompanies;
 use App\Concerns\SelectsPriorities;
 use App\Concerns\SelectsTypes;
 use App\Concerns\SelectsUsers;
+use App\Concerns\SelectsVisibilities;
+use App\Enums\Visibility;
 use App\Livewire\Forms\TicketForm;
 use App\Models\Ticket;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class ViewTicket extends Component
 {
-    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers;
+    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers, SelectsVisibilities;
 
     public Ticket $ticket;
 
     public TicketForm $form;
 
+    #[Validate(['required'])]
+    public string $content = '';
+
+    #[Validate(['required'])]
+    public string $visibility;
+
     public function mount(): void
     {
+        $this->visibility = Visibility::Public->value;
         $this->form->loadTicket($this->ticket);
     }
 
@@ -39,6 +49,16 @@ class ViewTicket extends Component
         );
 
         Flux::toast('Ticket updated', variant: 'success');
+    }
+
+    public function postComment(): void
+    {
+        $this->ticket->comments()->create(
+            $this->validate()
+        );
+
+        Flux::toast('Comment posted', variant: 'success');
+        $this->content = '';
     }
 
     #[Computed]

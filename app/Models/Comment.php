@@ -34,9 +34,9 @@ class Comment extends Model implements HasFluxColor
         return $this->belongsTo(User::class);
     }
 
-    public function markdown(): string
+    public function render(): string
     {
-        return Str::markdown($this->content);
+        return $this->content;
     }
 
     public function getFluxColor(): string

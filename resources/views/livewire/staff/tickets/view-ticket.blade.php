@@ -90,11 +90,29 @@
                         </flux:callout.heading>
                         <flux:separator />
                         <div class="ticket-body">
-                            {!! $comment->markdown() !!}
+                            {!! $comment->render() !!}
                         </div>
                     </flux:callout>
                 @endcan
             @endforeach
+            <flux:separator :text="__('general.new')" />
+            <form wire:submit.prevent="postComment" class="space-y-4">
+                <flux:radio.group wire:model="visibility" variant="cards" :label="__('comment.visibility')">
+                    @foreach($this->visibilities as $visibility)
+                        <flux:radio
+                            :label="$visibility->getLabel()"
+                            :icon="$visibility->getFluxIcon()"
+                            :value="$visibility->value"
+                            :description="$visibility->getDescription()"
+                            :indicator="false"
+                        />
+                    @endforeach
+                </flux:radio.group>
+                <flux:editor wire:model="content" :label="trans_choice('model.comment', 1)" />
+                <flux:button variant="primary" type="submit">
+                    @lang('general.post')
+                </flux:button>
+            </form>
         </main>
     </div>
 </div>

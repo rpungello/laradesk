@@ -2,12 +2,14 @@
 
 namespace App\Enums;
 
+use App\Contracts\HasDescription;
 use App\Contracts\HasFluxColor;
+use App\Contracts\HasFluxIcon;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
 
-enum Visibility: string implements HasFluxColor, HasLabel
+enum Visibility: string implements HasFluxColor, HasLabel, HasFluxIcon, HasDescription
 {
     case Public = 'public';
     case Private = 'private';
@@ -24,6 +26,28 @@ enum Visibility: string implements HasFluxColor, HasLabel
 
     public function getLabel(): string|Htmlable|null
     {
-        return Str::title($this->name);
+        return match ($this) {
+            self::Public => 'Public',
+            self::Private => 'Private',
+            self::StaffOnly => 'Staff Only',
+        };
+    }
+
+    public function getFluxIcon(): string
+    {
+        return match ($this) {
+            self::Public => 'eye',
+            self::Private => 'lock-closed',
+            self::StaffOnly => 'user-circle',
+        };
+    }
+
+    public function getDescription(): string
+    {
+        return match ($this) {
+            self::Private => 'Only visible to you',
+            self::StaffOnly => 'Only visible to staff members',
+            self::Public => 'Visible to everyone',
+        };
     }
 }
