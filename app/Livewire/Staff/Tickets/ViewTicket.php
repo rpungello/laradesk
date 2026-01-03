@@ -35,7 +35,7 @@ class ViewTicket extends Component
 
     #[Validate(['array'])]
     /**
-     * @var $attachments TemporaryUploadedFile[]
+     * @var TemporaryUploadedFile[]
      */
     public array $attachments = [];
 
