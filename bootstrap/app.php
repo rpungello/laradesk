@@ -17,6 +17,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'staff' => StaffOnlyMiddleware::class,
         ]);
+        $middleware->validateCsrfTokens(
+            except: [
+                'api/*',
+                'webhook/*',
+            ]
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
