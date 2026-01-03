@@ -89,6 +89,9 @@
                     <flux:table.column sortable :sorted="$sortBy === 'updated_at'" :direction="$sortDirection" wire:click="sort('updated_at')">
                         @lang('ticket.updated_at')
                     </flux:table.column>
+                    <flux:table.column>
+                        @lang('general.actions')
+                    </flux:table.column>
                 </flux:table.columns>
 
                 <flux:table.rows>
@@ -136,6 +139,18 @@
                             <flux:table.cell>
                                 {{ $ticket->updated_at->diffForHumans() }}
                             </flux:table.cell>
+
+                            <!-- Actions -->
+                            @can('update', $ticket)
+                                <flux:table.cell>
+                                    <flux:button
+                                        :href="route('staff.tickets.view', $ticket)"
+                                        icon="eye"
+                                        size="sm"
+                                        variant="primary"
+                                    />
+                                </flux:table.cell>
+                            @endcan
                         </flux:table.row>
                     @endforeach
                 </flux:table.rows>

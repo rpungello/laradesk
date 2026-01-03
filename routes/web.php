@@ -1,10 +1,12 @@
 <?php
 
+use App\Filament\Resources\Tickets\Pages\EditTicket;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
 use App\Livewire\Staff\Tickets\ListTickets;
+use App\Livewire\Staff\Tickets\ViewTicket;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -37,4 +39,5 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'staff'])->prefix('staff')->as('staff.')->group(function () {
     Route::get('tickets', ListTickets::class)->name('tickets.index');
+    Route::get('tickets/{ticket}', ViewTicket::class)->name('tickets.view');
 });
