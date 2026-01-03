@@ -19,7 +19,19 @@ class CommentPolicy
 
     public function view(User $user, Comment $comment): bool
     {
-        return $user->role === UserRole::Staff || $user->getKey() === $comment->ticket->user_id;
+        if (! $user->can('view', $comment->ticket)) {
+            return false;
+        }
+
+        if ($comment->visibility === Visibility::Public) {
+            return true;
+        } elseif ($comment->visibility === Visibility::Private) {
+            return $user->getKey() === $comment->user_id;
+        } elseif ($comment->visibility === Visibility::StaffOnly) {
+            return $user->role === UserRole::Staff || $user->getKey() === $comment->user_id;
+        } else {
+            return false;
+        }
     }
 
     public function create(User $user): bool
@@ -29,7 +41,7 @@ class CommentPolicy
 
     public function update(User $user, Comment $comment): bool
     {
-        return $user->role === UserRole::Staff;
+        return $user->role === UserRole::Staff && $this->view($user, $comment);
     }
 
     public function delete(User $user, Comment $comment): bool
