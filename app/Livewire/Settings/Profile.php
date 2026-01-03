@@ -45,7 +45,7 @@ class Profile extends Component
                 Rule::unique(User::class)->ignore($user->id),
             ],
 
-            'signature' => ['string'],
+            'signature' => ['nullable', 'string'],
         ]);
 
         $user->fill($validated);
