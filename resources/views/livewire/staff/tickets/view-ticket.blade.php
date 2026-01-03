@@ -100,30 +100,28 @@
         <flux:separator :vertical="true"/>
         <main class="flex-1 flex flex-col gap-4 overflow-y-scroll">
             @foreach($this->comments as $comment)
-                @can('view', $comment)
-                    <flux:callout :color="$comment->getFluxColor()">
-                        <flux:callout.heading icon="user-circle">
-                            <flux:text variant="strong">{{ $comment->user->name }}</flux:text>
-                            <flux:text variant="subtle">{{ $comment->created_at->diffForHumans() }}</flux:text>
-                        </flux:callout.heading>
-                        <flux:separator />
-                        <div class="ticket-body">
-                            {!! $comment->render() !!}
-                        </div>
-                        @if($comment->attachments()->exists())
-                            <x-slot:actions>
-                                @foreach($comment->attachments as $attachment)
-                                    <flux:button
-                                        size="xs"
-                                        :href="route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key])"
-                                    >
-                                        {{ $attachment->client_filename }}
-                                    </flux:button>
-                                @endforeach
-                            </x-slot:actions>
-                        @endif
-                    </flux:callout>
-                @endcan
+                <flux:callout :color="$comment->getFluxColor()">
+                    <flux:callout.heading icon="user-circle">
+                        <flux:text variant="strong">{{ $comment->user->name }}</flux:text>
+                        <flux:text variant="subtle">{{ $comment->created_at->diffForHumans() }}</flux:text>
+                    </flux:callout.heading>
+                    <flux:separator />
+                    <div class="ticket-body">
+                        {!! $comment->render() !!}
+                    </div>
+                    @if($comment->attachments()->exists())
+                        <x-slot:actions>
+                            @foreach($comment->attachments as $attachment)
+                                <flux:button
+                                    size="xs"
+                                    :href="route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key])"
+                                >
+                                    {{ $attachment->client_filename }}
+                                </flux:button>
+                            @endforeach
+                        </x-slot:actions>
+                    @endif
+                </flux:callout>
             @endforeach
             <flux:separator :text="__('general.new')" />
             <form wire:submit.prevent="postComment" class="space-y-4">

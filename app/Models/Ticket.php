@@ -6,6 +6,7 @@ use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Enums\TicketType;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -53,6 +54,15 @@ class Ticket extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function getVisibleComments(User $user, $sortBy = 'created_at', $sortDirection = 'asc'): Collection
+    {
+        return $this
+            ->comments()
+            ->orderBy($sortBy, $sortDirection)
+            ->get()
+            ->filter(fn (Comment $comment) => $user->can('view', $comment));
     }
 
     public function followers(): BelongsToMany

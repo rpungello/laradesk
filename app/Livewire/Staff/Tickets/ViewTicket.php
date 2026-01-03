@@ -9,6 +9,7 @@ use App\Concerns\SelectsUsers;
 use App\Concerns\SelectsVisibilities;
 use App\Enums\Visibility;
 use App\Livewire\Forms\TicketForm;
+use App\Models\Comment;
 use App\Models\Ticket;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
@@ -89,6 +90,6 @@ class ViewTicket extends Component
     #[Computed]
     public function comments(): Collection
     {
-        return $this->ticket->comments()->orderBy('created_at')->get();
+        return $this->ticket->getVisibleComments(auth()->user());
     }
 }
