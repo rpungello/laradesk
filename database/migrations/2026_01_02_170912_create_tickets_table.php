@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Models\Company;
 use App\Models\Product;
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->nullable()->constrained()->restrictOnDelete();
             $table->foreignIdFor(Company::class)->nullable()->constrained()->restrictOnDelete();
 
-            $table->unsignedTinyInteger('priority')->nullable();
+            $table->unsignedTinyInteger('priority')->default(Priority::Medium);
             $table->boolean('billable')->default(false);
             $table->date('due_date')->nullable();
 
