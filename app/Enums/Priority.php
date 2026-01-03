@@ -15,7 +15,7 @@ enum Priority: int implements HasColor, HasFluxColor, HasLabel
 
     case High = 3;
 
-    case Medium = 4;
+    case Normal = 4;
 
     case Low = 5;
 
@@ -29,7 +29,7 @@ enum Priority: int implements HasColor, HasFluxColor, HasLabel
         return match (true) {
             $this->value <= self::Critical->value => 'danger',
             $this === self::High => 'warning',
-            $this === self::Medium => 'info',
+            $this === self::Normal => 'info',
             $this === self::Low => 'success',
         };
     }
@@ -39,7 +39,7 @@ enum Priority: int implements HasColor, HasFluxColor, HasLabel
         return match (true) {
             $this->value <= self::Critical->value => 'red',
             $this === self::High => 'amber',
-            $this === self::Medium => 'blue',
+            $this === self::Normal => 'blue',
             $this === self::Low => 'green',
         };
     }

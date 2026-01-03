@@ -34,7 +34,7 @@ class TicketForm extends Form
     public ?int $company_id = null;
 
     #[Validate(['required'])]
-    public Priority $priority = Priority::Medium;
+    public Priority $priority = Priority::Normal;
 
     #[Validate(['boolean'])]
     public bool $billable = false;
