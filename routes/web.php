@@ -1,6 +1,5 @@
 <?php
 
-use App\Filament\Resources\Tickets\Pages\EditTicket;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;

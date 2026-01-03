@@ -10,12 +10,11 @@ use App\Livewire\Forms\TicketForm;
 use App\Models\Ticket;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class ViewTicket extends Component
 {
-    use SelectsUsers, SelectsCompanies, SelectsPriorities, SelectsTypes;
+    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers;
 
     public Ticket $ticket;
 
