@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
+use App\Mail\CommentMail;
 use App\Models\Comment;
-use App\Notifications\CommentPostedNotification;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Mail;
 
 class CommentObserver
 {
@@ -17,9 +17,8 @@ class CommentObserver
 
     public function created(Comment $comment): void
     {
-        Notification::send(
-            $comment->getRecipients(),
-            new CommentPostedNotification($comment)
-        );
+        $mailable = new CommentMail($comment);
+        $mailable->to($comment->getRecipients());
+        Mail::queue($mailable);
     }
 }
