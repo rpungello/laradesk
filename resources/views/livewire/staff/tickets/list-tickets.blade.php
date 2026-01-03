@@ -80,6 +80,7 @@
                         @lang('ticket.priority')
                     </flux:table.column>
                     <flux:table.column>@lang('ticket.status')</flux:table.column>
+                    <flux:table.column>@lang('ticket.title')</flux:table.column>
                     <flux:table.column>@lang('ticket.product_id')</flux:table.column>
                     <flux:table.column>@lang('ticket.user_id')</flux:table.column>
                     <flux:table.column>@lang('ticket.company_id')</flux:table.column>
@@ -113,6 +114,11 @@
                                 >
                                     {{ $ticket->status->getLabel() }}
                                 </flux:badge>
+                            </flux:table.cell>
+
+                            <!-- Title -->
+                            <flux:table.cell>
+                                {{ $ticket->title }}
                             </flux:table.cell>
 
                             <!-- Product -->
