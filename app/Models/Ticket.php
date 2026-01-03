@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection as SupportCollection;
 use Laravel\Scout\Searchable;
 
 class Ticket extends Model
@@ -68,6 +69,11 @@ class Ticket extends Model
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'ticket_user', 'ticket_id', 'user_id');
+    }
+
+    public function emailSubject(string $suffix): string
+    {
+        return __('ticket.ticket_number', ['id' => $this->getKey()]).' - '.$suffix;
     }
 
     protected function casts(): array

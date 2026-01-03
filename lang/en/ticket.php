@@ -19,4 +19,5 @@ return [
     'attachments' => 'Attachments',
     'external' => 'External Ticket',
     'has_client_follower' => 'This ticket has one or more client followers, so be careful with public comments',
+    'ticket_number' => 'Ticket #:id',
 ];

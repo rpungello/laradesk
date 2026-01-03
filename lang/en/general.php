@@ -7,4 +7,5 @@ return [
     'save' => 'Save',
     'search' => 'Search',
     'submit' => 'Submit',
+    'updated' => 'Updated',
 ];
