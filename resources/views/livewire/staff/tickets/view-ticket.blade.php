@@ -115,7 +115,7 @@
             @endforeach
             <flux:separator :text="__('general.new')" />
             <form wire:submit.prevent="postComment" class="space-y-4">
-                <flux:radio.group wire:model="visibility" variant="cards" :label="__('comment.visibility')">
+                <flux:radio.group wire:model.live="visibility" variant="cards" :label="__('comment.visibility')">
                     @foreach($this->visibilities as $visibility)
                         <flux:radio
                             :label="$visibility->getLabel()"
@@ -126,6 +126,12 @@
                         />
                     @endforeach
                 </flux:radio.group>
+                @if($ticket->hasClientFollower() && $this->visibility === \App\Enums\Visibility::Public->value)
+                    <flux:callout variant="warning">
+                        <flux:callout.heading>@lang('ticket.external')</flux:callout.heading>
+                        <flux:callout.text>@lang('ticket.has_client_follower')</flux:callout.text>
+                    </flux:callout>
+                @endif
                 <flux:editor wire:model="content" :label="trans_choice('model.comment', 1)" />
                 <flux:button variant="primary" type="submit">
                     @lang('general.post')

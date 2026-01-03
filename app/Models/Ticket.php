@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Enums\TicketType;
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -68,6 +69,12 @@ class Ticket extends Model
             'status' => TicketStatus::class,
             'type' => TicketType::class,
         ];
+    }
+
+    public function hasClientFollower(): bool
+    {
+        return $this->user->role === UserRole::Client
+            || $this->followers()->whereRole(UserRole::Client)->exists();
     }
 
     public function toSearchableArray(): array

@@ -15,4 +15,7 @@ return [
     'created_at' => 'Requested',
     'updated_at' => 'Last Updated',
     'deleted_at' => 'Deleted',
+
+    'external' => 'External Ticket',
+    'has_client_follower' => 'This ticket has one or more client followers, so be careful with public comments',
 ];
