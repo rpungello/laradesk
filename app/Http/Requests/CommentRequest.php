@@ -17,7 +17,7 @@ class CommentRequest extends FormRequest
             'content' => ['required'],
             'visibility' => [
                 'required',
-                Rule::enum(Visibility::class)
+                Rule::enum(Visibility::class),
             ],
         ];
     }

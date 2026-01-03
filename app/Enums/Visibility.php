@@ -7,7 +7,7 @@ use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
 
-enum Visibility: string implements HasLabel, HasFluxColor
+enum Visibility: string implements HasFluxColor, HasLabel
 {
     case Public = 'public';
     case Private = 'private';
