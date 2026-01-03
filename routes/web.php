@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostmarkController;
 use App\Http\Controllers\ViewAttachmentController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -14,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::post('webhook/postmark', PostmarkController::class)->name('webhook.postmark');
 Route::get('attachments/{attachment}', ViewAttachmentController::class)->name('attachments.show');
 
 Route::view('dashboard', 'dashboard')
