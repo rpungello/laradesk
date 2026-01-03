@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->string('title')->index();
             $table->string('status')->default(TicketStatus::New)->index();
-            $table->string('type')->index();
+            $table->string('type')->nullable()->index();
 
             $table->foreignIdFor(User::class)->constrained('users')->restrictOnDelete();
             $table->foreignIdFor(User::class, 'assigned_user_id')->nullable()->constrained('users')->restrictOnDelete();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignIdFor(Company::class)->nullable()->constrained()->restrictOnDelete();
 
             $table->unsignedTinyInteger('priority');
-            $table->boolean('billable');
+            $table->boolean('billable')->default(false);
             $table->date('due_date')->nullable();
 
             $table->timestamps();
