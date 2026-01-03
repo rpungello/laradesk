@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
 #[ObservedBy([CommentObserver::class])]
-class Comment extends Model implements HasFluxColor, Auditable
+class Comment extends Model implements Auditable, HasFluxColor
 {
     use HasFactory, \OwenIt\Auditing\Auditable;
 

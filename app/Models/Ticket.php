@@ -19,7 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Ticket extends Model implements Auditable
 {
-    use HasFactory, Searchable, SoftDeletes, \OwenIt\Auditing\Auditable;
+    use HasFactory, \OwenIt\Auditing\Auditable, Searchable, SoftDeletes;
 
     protected $fillable = [
         'title',
