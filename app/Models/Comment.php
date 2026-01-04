@@ -46,12 +46,15 @@ class Comment extends Model implements Auditable, HasFluxColor
 
     public function getRecipients(): Collection
     {
-        return $this->ticket->followers
+        $recipients = $this->ticket->followers
             ->push($this->user)
-            ->push($this->ticket->user)
-            ->push($this->ticket->assignedUser)
-            ->unique();
+            ->push($this->ticket->user);
 
+        if (! empty($this->ticket->assignedUser)) {
+            $recipients->push($this->ticket->assignedUser);
+        }
+
+        return $recipients->unique();
     }
 
     public function render(): string
