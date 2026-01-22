@@ -9,6 +9,7 @@ use App\Concerns\SelectsUsers;
 use App\Concerns\SelectsVisibilities;
 use App\Enums\Visibility;
 use App\Livewire\Forms\TicketForm;
+use App\Models\Comment;
 use App\Models\Ticket;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
@@ -33,6 +34,8 @@ class ViewTicket extends Component
 
     #[Validate(['required'])]
     public string $visibility;
+
+    public ?Comment $replyingTo = null;
 
     #[Validate(['array'])]
     /**
@@ -62,11 +65,16 @@ class ViewTicket extends Component
         Flux::toast('Ticket updated', variant: 'success');
     }
 
+    public function replyTo(?Comment $comment): void
+    {
+        $this->replyingTo = $comment;
+    }
+
     public function postComment(): void
     {
         $comment = $this->ticket->comments()->create(
             array_merge(
-                ['user_id' => auth()->id()],
+                ['user_id' => auth()->id(), 'reply_to_comment_id' => $this->replyingTo?->getKey()],
                 Arr::only($this->validate(), ['visibility', 'content'])
             )
         );
@@ -83,6 +91,7 @@ class ViewTicket extends Component
 
         Flux::toast('Comment posted', variant: 'success');
         $this->content = '';
+        $this->replyingTo = null;
     }
 
     public function removeAttachment(int $index): void

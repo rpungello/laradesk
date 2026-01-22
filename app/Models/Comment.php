@@ -21,6 +21,7 @@ class Comment extends Model implements Auditable, HasFluxColor
     protected $fillable = [
         'ticket_id',
         'user_id',
+        'reply_to_comment_id',
         'visibility',
         'content',
     ];
@@ -37,6 +38,11 @@ class Comment extends Model implements Auditable, HasFluxColor
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function replyTo(): BelongsTo
+    {
+        return $this->belongsTo(Comment::class, 'reply_to_comment_id');
     }
 
     public function attachments(): HasMany
@@ -57,33 +63,37 @@ class Comment extends Model implements Auditable, HasFluxColor
         return $recipients->unique();
     }
 
-    public function render(): string
+    public function render(bool $displayImages = true): string
     {
         // Grab all attachments for this comment once.
         $attachments = $this->attachments()
             ->orderBy('id')          // ensure a deterministic order
             ->get();
 
-        // Replace every [img:X] token with an <img> tag.
-        return preg_replace_callback(
-            '/\[img:(\d+)]/',
-            function ($matches) use ($attachments) {
-                $index = (int) $matches[1];
+        if ($displayImages) {
+            // Replace every [img:X] token with an <img> tag.
+            return preg_replace_callback(
+                '/\[img:(\d+)]/',
+                function ($matches) use ($attachments) {
+                    $index = (int)$matches[1];
 
-                // If the attachment exists, build the <img> element.
-                if (isset($attachments[$index])) {
-                    /** @var Attachment $attachment */
-                    $attachment = $attachments[$index];
-                    $url = route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key]);
+                    // If the attachment exists, build the <img> element.
+                    if (isset($attachments[$index])) {
+                        /** @var Attachment $attachment */
+                        $attachment = $attachments[$index];
+                        $url = route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key]);
 
-                    return html()->a($url, html()->img($url)->class('max-w-xl'))->target('attachment');
-                }
+                        return html()->a($url, html()->img($url)->class('max-w-xl'))->target('attachment');
+                    }
 
-                // No attachment found – remove the placeholder (or return a fallback).
-                return '';
-            },
-            $this->content
-        );
+                    // No attachment found – remove the placeholder (or return a fallback).
+                    return '';
+                },
+                $this->content
+            );
+        } else {
+            return $this->content;
+        }
     }
 
     public function getFluxColor(): string

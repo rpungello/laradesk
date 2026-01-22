@@ -109,18 +109,19 @@
                     <div class="ticket-body">
                         {!! $comment->render() !!}
                     </div>
-                    @if($comment->attachments()->exists())
-                        <x-slot:actions>
-                            @foreach($comment->attachments as $attachment)
-                                <flux:button
-                                    size="xs"
-                                    :href="route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key])"
-                                >
-                                    {{ $attachment->client_filename }}
-                                </flux:button>
-                            @endforeach
-                        </x-slot:actions>
-                    @endif
+                    <x-slot:actions>
+                        <flux:button variant="primary" wire:click="replyTo({{ $comment->getKey() }})">
+                            {{ __('Reply') }}
+                        </flux:button>
+                        @foreach($comment->attachments as $attachment)
+                            <flux:button
+                                size="xs"
+                                :href="route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key])"
+                            >
+                                {{ $attachment->client_filename }}
+                            </flux:button>
+                        @endforeach
+                    </x-slot:actions>
                 </flux:callout>
             @endforeach
 
@@ -145,6 +146,19 @@
                     <flux:callout variant="warning">
                         <flux:callout.heading>@lang('ticket.external')</flux:callout.heading>
                         <flux:callout.text>@lang('ticket.has_client_follower')</flux:callout.text>
+                    </flux:callout>
+                @endif
+
+                <!-- Replying To -->
+                @if(! empty($replyingTo))
+                    <flux:callout color="blue" inline>
+                        <flux:callout.heading>{{ __('Replying To') }}: {{ $replyingTo->user->name }} - {{ $replyingTo->created_at->diffForHumans() }}</flux:callout.heading>
+                        <div class="ticket-body">
+                            {!! $comment->render(false) !!}
+                        </div>
+                        <x-slot:controls>
+                            <flux:button variant="ghost" icon="x-mark" type="button" wire:click="replyTo(null)" />
+                        </x-slot:controls>
                     </flux:callout>
                 @endif
 
