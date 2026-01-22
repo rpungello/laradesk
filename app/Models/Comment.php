@@ -75,7 +75,7 @@ class Comment extends Model implements Auditable, HasFluxColor
             return preg_replace_callback(
                 '/\[img:(\d+)]/',
                 function ($matches) use ($attachments) {
-                    $index = (int)$matches[1];
+                    $index = (int) $matches[1];
 
                     // If the attachment exists, build the <img> element.
                     if (isset($attachments[$index])) {
