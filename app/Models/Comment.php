@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use OwenIt\Auditing\Contracts\Auditable;
 
 #[ObservedBy([CommentObserver::class])]
@@ -59,7 +60,31 @@ class Comment extends Model implements Auditable, HasFluxColor
 
     public function render(): string
     {
-        return $this->content;
+        // Grab all attachments for this comment once.
+        $attachments = $this->attachments()
+            ->orderBy('id')          // ensure a deterministic order
+            ->get();
+
+        // Replace every [img:X] token with an <img> tag.
+        return preg_replace_callback(
+            '/\[img:(\d+)]/',
+            function ($matches) use ($attachments) {
+                $index = (int) $matches[1];
+
+                // If the attachment exists, build the <img> element.
+                if (isset($attachments[$index])) {
+                    /** @var Attachment $attachment */
+                    $attachment = $attachments[$index];
+                    $url = route('attachments.show', ['attachment' => $attachment, 'key' => $attachment->auth_key]);
+
+                    return html()->a($url, html()->img($url)->class('max-w-xl'))->target('attachment');
+                }
+
+                // No attachment found – remove the placeholder (or return a fallback).
+                return '';
+            },
+            $this->content
+        );
     }
 
     public function getFluxColor(): string
