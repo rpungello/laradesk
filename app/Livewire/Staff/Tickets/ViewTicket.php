@@ -7,6 +7,7 @@ use App\Concerns\SelectsPriorities;
 use App\Concerns\SelectsTypes;
 use App\Concerns\SelectsUsers;
 use App\Concerns\SelectsVisibilities;
+use App\Enums\TicketStatus;
 use App\Enums\Visibility;
 use App\Livewire\Forms\TicketForm;
 use App\Models\Comment;
@@ -78,6 +79,10 @@ class ViewTicket extends Component
                 Arr::only($this->validate(), ['visibility', 'content'])
             )
         );
+        if ($this->ticket->status === TicketStatus::New) {
+            $this->ticket->update(['status' => TicketStatus::Open]);
+        }
+
         foreach ($this->attachments as $attachment) {
             $comment->attachments()->create([
                 'disk' => config('filesystems.default'),

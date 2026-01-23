@@ -23,6 +23,7 @@ class Ticket extends Model implements Auditable
 
     protected $fillable = [
         'title',
+        'status',
         'user_id',
         'assigned_user_id',
         'product_id',
