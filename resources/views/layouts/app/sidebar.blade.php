@@ -10,7 +10,7 @@
                     :name="config('app.name')"
                 >
                     <x-slot:logo>
-                        <x-app-logo-icon />
+                        <x-app-logo-icon compact />
                     </x-slot:logo>
                 </flux:sidebar.brand>
                 <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
