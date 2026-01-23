@@ -25,7 +25,7 @@ use Livewire\WithFileUploads;
 
 class ViewTicket extends Component
 {
-    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers, SelectsVisibilities, WithFileUploads, SelectsStatuses;
+    use SelectsCompanies, SelectsPriorities, SelectsStatuses, SelectsTypes, SelectsUsers, SelectsVisibilities, WithFileUploads;
 
     public Ticket $ticket;
 
