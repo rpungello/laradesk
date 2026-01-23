@@ -168,7 +168,7 @@
                     <flux:callout color="blue" inline>
                         <flux:callout.heading>{{ __('Replying To') }}: {{ $replyingTo->user->name }} - {{ $replyingTo->created_at->diffForHumans() }}</flux:callout.heading>
                         <div class="ticket-body">
-                            {!! $comment->render(false) !!}
+                            {!! $replyingTo->render(false) !!}
                         </div>
                         <x-slot:controls>
                             <flux:button variant="ghost" icon="x-mark" type="button" wire:click="replyTo(null)" />

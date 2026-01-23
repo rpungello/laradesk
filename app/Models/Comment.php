@@ -63,8 +63,14 @@ class Comment extends Model implements Auditable, HasFluxColor
         return $recipients->unique();
     }
 
-    public function render(bool $displayImages = true): string
+    public function render(bool $displayImages = true, bool $includeSignature = false): string
     {
+        $content = $this->content;
+
+        if (! empty($this->reply_to_comment_id)) {
+            $content = "<blockquote>{$this->replyTo->render(false)}</blockquote>$content";
+        }
+
         // Grab all attachments for this comment once.
         $attachments = $this->attachments()
             ->orderBy('id')          // ensure a deterministic order
@@ -72,7 +78,7 @@ class Comment extends Model implements Auditable, HasFluxColor
 
         if ($displayImages) {
             // Replace every [img:X] token with an <img> tag.
-            return preg_replace_callback(
+            $content = preg_replace_callback(
                 '/\[img:(\d+)]/',
                 function ($matches) use ($attachments) {
                     $index = (int) $matches[1];
@@ -89,11 +95,15 @@ class Comment extends Model implements Auditable, HasFluxColor
                     // No attachment found – remove the placeholder (or return a fallback).
                     return '';
                 },
-                $this->content
+                $content
             );
-        } else {
-            return $this->content;
         }
+
+        if ($includeSignature && ! empty($signature = $this->user->signatureForComment($this))) {
+            $content .= "<br />$signature";
+        }
+
+        return $content;
     }
 
     public function getFluxColor(): string
