@@ -34,7 +34,7 @@ enum TicketStatus: string implements HasColor, HasFluxColor, HasLabel
         return match ($this) {
             self::New => 'violet',
             self::Pending => 'blue',
-            self::Closed => 'gray',
+            self::Closed => 'zinc',
             self::Open => 'red',
         };
     }

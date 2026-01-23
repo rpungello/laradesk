@@ -4,6 +4,7 @@ namespace App\Livewire\Staff\Tickets;
 
 use App\Concerns\SelectsCompanies;
 use App\Concerns\SelectsPriorities;
+use App\Concerns\SelectsStatuses;
 use App\Concerns\SelectsTypes;
 use App\Concerns\SelectsUsers;
 use App\Concerns\SelectsVisibilities;
@@ -24,7 +25,7 @@ use Livewire\WithFileUploads;
 
 class ViewTicket extends Component
 {
-    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers, SelectsVisibilities, WithFileUploads;
+    use SelectsCompanies, SelectsPriorities, SelectsTypes, SelectsUsers, SelectsVisibilities, WithFileUploads, SelectsStatuses;
 
     public Ticket $ticket;
 

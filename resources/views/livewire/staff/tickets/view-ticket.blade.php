@@ -73,6 +73,20 @@
                     @endforeach
                 </flux:select>
 
+                <!-- Status -->
+                <flux:select wire:model="form.status" :label="__('ticket.status')" variant="listbox">
+                    @foreach($this->statuses as $status)
+                        <flux:select.option
+                            :value="$status->value"
+                        >
+                            <div class="flex items-center gap-2">
+                                <div class="bg-{{ $status->getFluxColor() }}-500 size-4 rounded-sm"></div>
+                                <span>{{ $status->getLabel() }}</span>
+                            </div>
+                        </flux:select.option>
+                    @endforeach
+                </flux:select>
+
                 <!-- Type -->
                 <flux:select wire:model="form.type" :label="__('ticket.type')">
                     @foreach($this->types as $type)
