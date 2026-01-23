@@ -114,7 +114,7 @@
         <flux:separator :vertical="true"/>
         <main class="flex-1 flex flex-col gap-4 overflow-y-scroll">
             @foreach($this->comments as $comment)
-                <flux:callout :color="$comment->getFluxColor()">
+                <flux:callout :color="$comment->getFluxColor()" id="comment-{{ $comment->getKey() }}">
                     <flux:callout.heading :icon="$comment->user->role === \App\Enums\UserRole::Client ? 'user-circle' : 'headset'">
                         <flux:text variant="strong">{{ $comment->user->name }}</flux:text>
                         <flux:text variant="subtle">{{ $comment->created_at->diffForHumans() }}</flux:text>
@@ -123,6 +123,11 @@
                     <div class="ticket-body">
                         {!! $comment->render() !!}
                     </div>
+                    <x-slot:controls>
+                        @if(! empty($comment->reply_to_comment_id))
+                            <flux:button href="#comment-{{ $comment->reply_to_comment_id }}" icon="reply" variant="ghost" />
+                        @endif
+                    </x-slot:controls>
                     <x-slot:actions>
                         <flux:button variant="primary" wire:click="replyTo({{ $comment->getKey() }})">
                             {{ __('Reply') }}
