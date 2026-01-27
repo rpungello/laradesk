@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('title')->index();
             $table->string('status')->default(TicketStatus::New)->index();
-            $table->string('type')->nullable()->index();
+            $table->string('type')->index();
 
             $table->foreignIdFor(User::class)->constrained('users')->restrictOnDelete();
             $table->foreignIdFor(User::class, 'assigned_user_id')->nullable()->constrained('users')->restrictOnDelete();
