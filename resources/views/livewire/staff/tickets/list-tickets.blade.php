@@ -67,6 +67,18 @@
 
                 <div class="flex-grow"></div>
 
+                <!-- Create Ticket -->
+                <flux:button variant="primary"
+                             type="button"
+                             color="violet"
+                             icon="plus"
+                             :href="route('staff.tickets.create')"
+                             wire:navigate
+                >
+                    @lang('general.new')
+                </flux:button>
+
+                <!-- Filter Tickets -->
                 <flux:button variant="primary" type="submit">
                     @lang('general.submit')
                 </flux:button>
