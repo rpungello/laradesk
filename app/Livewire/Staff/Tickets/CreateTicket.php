@@ -17,11 +17,11 @@ use Livewire\Component;
 
 class CreateTicket extends Component
 {
+    use SelectsCompanies;
     use SelectsPriorities;
+    use SelectsProducts;
     use SelectsTypes;
     use SelectsUsers;
-    use SelectsProducts;
-    use SelectsCompanies;
 
     #[Validate(['required', 'min:3'])]
     public string $title = '';
